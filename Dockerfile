@@ -1,13 +1,10 @@
-FROM python:3.12.1-alpine3.18
-LABEL maintainer = "sholeg2005@gmail.com"
+FROM python:3.10.8-slim
 
-ENV PYTHONUNBUFFERED=1
+WORKDIR /app
 
-WORKDIR app/
+COPY requirements.txt .
+RUN pip install --no-cache-dir -r requirements.txt
 
-COPY requirements.txt requirements.txt
-RUN pip install -r requirements.txt
+COPY app/ .
 
-COPY . .
-
-CMD ["python", "app/main.py"]
+CMD ["python", "main.py"]

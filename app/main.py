@@ -11,11 +11,14 @@ def get_weather() -> None:
     if not api_key:
         raise ValueError("API_KEY environment variable is not set!")
 
-    url = f"{BASE_URL}?key={api_key}&q={CITY}"
+    params = {
+        "key": api_key,
+        "q": CITY
+    }
+    response = requests.get(BASE_URL, params=params)
 
-    response = requests.get(url)
-    if response.status_code != 200:
-        raise Exception(f"Error fetching weather: {response.text}")
+    response = requests.get(BASE_URL, params=params)
+    response.raise_for_status()
 
     data = response.json()
     location = data["location"]["name"]
